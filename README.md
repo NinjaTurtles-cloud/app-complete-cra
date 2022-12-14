@@ -71,9 +71,27 @@ function Survey() {
 }
 ```
 
+Intégration du composant Error pour créer une erreur quand l'url demandé n'existe pas avec cette route
+`javascript<Route path="*" element={<Error />} />`
+
+Integration des composant Freelances et Results
+Ajout de la fonctionalité Question Précedents/Suivantes sur le composant Survey
+
 #Note
+import react-router-dom. ( qu'est ce que le react router dom ? )
+
+- Link
+- UseParams
+- BrowserRouter
+- Routes
+- Route
+
 Dans ce tutoriel on créer une application react complete avec :
 CRA
 Route pour faire des menu
 Link pour naviguer dans le menu
 Le Hook useParams pour ajouter des parametre dans le menu.
+
+Les Router est au coeur des systeme d'authetification
+Si le token est correct, pas de souci, vous récupérez vos données.
+En cas d'erreur de token, vous recevez une erreur qui a pour conséquence de vous rediriger automatiquement côté router de React sur la partie non authentifiée avec Redirect.
