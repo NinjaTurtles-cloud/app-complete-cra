@@ -25,7 +25,7 @@ ReactDOM.render(
 Création du composant Header avec l'import de **Link** de react-router-dom qui se comporte comme une balise anchor
 Puis import de **Header** dans le fichier **index.js Source**
 
-```
+```javascript
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -44,40 +44,131 @@ Félicitation vous avez réussi à créer un menu, voyons maitenant comment pass
 
 On commence par définir `questionNumber` dans l'url de la route.
 
-```
+```javascript
 <Route path="/survey/:questionNumber" element={<Survey />} />
 ```
 
 Ensuite on définis le numéro de la question dans le composant **Header**
 
-```
+```javascript
 <Link to="/survey/42">Questionnaire</Link>
 ```
 
 Puis on vas s'aider du hook **useParams** dans le composant **Survey**
 
-```
-import { useParams } from 'react-router-dom'
+```javascript
+import { useParams } from "react-router-dom";
 
 function Survey() {
-    const { questionNumber } = useParams()
+  const { questionNumber } = useParams();
 
-    return (
-        <div>
-            <h1>Questionnaire 🧮</h1>
-            <h2>Question {questionNumber}</h2>
-        </div>
-    )
+  return (
+    <div>
+      <h1>Questionnaire 🧮</h1>
+      <h2>Question {questionNumber}</h2>
+    </div>
+  );
 }
 ```
 
 Intégration du composant Error pour créer une erreur quand l'url demandé n'existe pas avec cette route
-`javascript<Route path="*" element={<Error />} />`
+```javascript<Route path="*" element={<Error />} />`
 
 Integration des composant Freelances et Results
 Ajout de la fonctionalité Question Précedents/Suivantes sur le composant Survey
 
-#Note
+### Indiquez les types de vos props avec les PropTypes
+
+Installation la bibliotheque propType `yarn add prop-types `
+pour permettre de déclarer le type de props attendu et de déclencher un warning si ça ne correspond pas.
+On peut également éxiger qu'une props en ajoutant _isRequired_ à la suite du type déclaré pour afficher une erreur dans la console en cas d'oublie.
+
+Déclaration du components>Card qui définira l'affichage des information de chaque freelance dans une carte avec la déclaration des propTypes.
+
+```javascript
+import PropTypes from "prop-types";
+
+function Card({ label, title, picture }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", padding: 15 }}>
+      <span>{label}</span>
+      <img src={picture} alt="freelance" height={80} width={80} />
+      <span>{title}</span>
+    </div>
+  );
+}
+
+Card.propTypes = {
+  label: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  picture: PropTypes.string,
+};
+
+export default Card;
+```
+
+Le composant freelances dans la Pages>Freelance contient les data de chaque freelance et utilise la methode map pour les lister.
+
+```javascript
+import DefaultPicture from "../../assets/profile.png";
+
+const freelanceProfiles = [
+  {
+    name: "Jane Doe",
+    jobTitle: "Devops",
+    picture: DefaultPicture,
+  },
+  {
+    name: "John Doe",
+    jobTitle: "Developpeur frontend",
+    picture: DefaultPicture,
+  },
+  {
+    name: "Jeanne Biche",
+    jobTitle: "Développeuse Fullstack",
+    picture: DefaultPicture,
+  },
+];
+
+function Freelances() {
+  return (
+    <div>
+      <h1>Freelances</h1>
+      {freelanceProfiles.map((profile, index) => (
+        <Card
+          key={`${profile.name}-${index}`}
+          label={profile.jobTitle}
+          picture={profile.picture}
+          title={profile.name}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default Freelances;
+```
+
+#### Dafinir une props par default.
+
+Au lieu d'utiliser isRequired on peut déclarer une propriété par default soit en assignant une valeur title directement dans la destructuration
+
+```javascript
+function Card({ label, title = "montitre par defauult", picture })
+```
+
+soit en ayant recours à la déclaration de _Card.defaultProps_ en dessous de _defaultProps_
+
+```javascript
+Card.defaultProps = {
+  title: "Mon titre par défaut",
+};
+```
+
+PS il y a d'autre solution recommander pour typer ses props comme **TypeScript** et **Props**
+
+# Note
+
 import react-router-dom. ( qu'est ce que le react router dom ? )
 
 - Link
@@ -92,6 +183,16 @@ Route pour faire des menu
 Link pour naviguer dans le menu
 Le Hook useParams pour ajouter des parametre dans le menu.
 
-Les Router est au coeur des systeme d'authetification
+Le Router est au coeur des systeme d'authetification
 Si le token est correct, pas de souci, vous récupérez vos données.
 En cas d'erreur de token, vous recevez une erreur qui a pour conséquence de vous rediriger automatiquement côté router de React sur la partie non authentifiée avec Redirect.
+
+# Question
+
+Qu'est ce que la methode parseInt
+Comment traduire
+
+```javascript
+const previousQuestionNumber =
+  questionNumberInt === 1 ? 1 : questionNumberInt - 1;
+```
