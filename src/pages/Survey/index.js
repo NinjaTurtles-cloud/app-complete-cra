@@ -11,11 +11,16 @@ function Survey() {
     <div>
       <h1>Questionnaire</h1>
       <h2>Question {questionNumber}</h2>
-      <Link to={`/survey/${previousQuestionNumber}`}>Précedent </Link>
+      <Link className="basic" to={`/survey/${previousQuestionNumber}`}>
+        Précedents{" "}
+      </Link>
       {questionNumber === 10 ? (
         <Link to="/results">Résultats</Link>
       ) : (
-        <Link to={`/survey/${nextQuestionNumber}`}>Suivants</Link>
+        <Link className="basic" to={`/survey/${nextQuestionNumber}`}>
+          {" "}
+          Suivants
+        </Link>
       )}
     </div>
   );

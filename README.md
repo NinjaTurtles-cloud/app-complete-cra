@@ -1,5 +1,13 @@
 # Créer une application complete avec React
 
+Dans ce tutoriel nous allons voir le routing
+
+Créer un systeme de pagination pour un questionnaire
+
+Les porps types pour définir une valeur par default, ou si une props est required
+
+Le scope CSS pour designer un composange en JS avec `yarn add styled-components`
+
 Création des composant Home et Survey
 Installation du routeur avec `yarn add react-router-dom`
 Bug quand j'Import du Router et de Route dans `index.js` a la racine du dossier `src` car on est passer a la V6 de React cf Doc https://reactrouter.com/en/main/upgrading/v5
@@ -149,7 +157,7 @@ function Freelances() {
 export default Freelances;
 ```
 
-#### Dafinir une props par default.
+#### Définir une props par default.
 
 Au lieu d'utiliser isRequired on peut déclarer une propriété par default soit en assignant une valeur title directement dans la destructuration
 
@@ -166,6 +174,43 @@ Card.defaultProps = {
 ```
 
 PS il y a d'autre solution recommander pour typer ses props comme **TypeScript** et **Props**
+
+## Scopez votre CSS avec styled components
+
+Depuis quelques années on vois arrivé le CSS in JS pour gargé à l'idée que **le style est attacgé a un composant spécifique**. Il existe plusieur solution CSS in JS et nous allons nous intéréssé a styled components qui s'installe avec alc ommande
+`yarn add styled-components`
+Puis on définis des constante avec des valeurs CSS
+Et on donne le nom de ces constant aux balise JSX
+Et si la balise JSX viens d'une bibliotheque on donne une valeur en préfixe et le nom de la balise en arguments.
+exemple
+
+````javascript
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+const StyledLink = styled(Link)`
+    padding: 15px;
+    color: #8186a0;
+    text-decoration: none;
+    font-size: 18px;
+    ${(props) =>
+      props.$isFullLink &&
+      `color: white; border-radium: 30px; background-color:5843E4;`}
+`
+
+function Header() {
+    return (
+        <nav>
+            <StyledLink to="/">Accueil</StyledLink>
+            <StyledLink to="/survey/1" $isFullLink>Questionnaire</StyledLink>
+            <StyledLink to="/freelances">Profils</StyledLink>
+        </nav>
+    )
+}
+
+export default Header
+```
+
 
 # Note
 
@@ -195,4 +240,32 @@ Comment traduire
 ```javascript
 const previousQuestionNumber =
   questionNumberInt === 1 ? 1 : questionNumberInt - 1;
+```
+````
+
+### Comment fonctionne ce code pour la pagination
+
+```javascript
+function Survey() {
+  const { questionNumber } = useParams();
+  const questionNumberInt = parseInt(questionNumber);
+  const previousQuestionNumber =
+    questionNumberInt === 1 ? 1 : questionNumberInt - 1;
+  const nextQuestionNumber = questionNumberInt + 1;
+
+  return (
+    <div>
+      <h1>Questionnaire</h1>
+      <h2>Question {questionNumber}</h2>
+      <Link to={`/survey/${previousQuestionNumber}`}>Précedent </Link>
+      {questionNumber === 10 ? (
+        <Link to="/results">Résultats</Link>
+      ) : (
+        <Link to={`/survey/${nextQuestionNumber}`}>Suivants</Link>
+      )}
+    </div>
+  );
+}
+
+export default Survey;
 ```
