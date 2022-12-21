@@ -1,12 +1,38 @@
 # Créer une application complete avec React
 
-Dans ce tutoriel nous allons voir le routing
+## Ce que nous allons voir
 
-Créer un systeme de pagination pour un questionnaire
+### Créer une SPA Robuste
 
-Les porps types pour définir une valeur par default, ou si une props est required
+Dans ce tutoriel on vois l'utilité de EsLint et Prettier.
+Qu'est ce que EsLint ?
+Qu'est ce Prettier ?
 
-Le scope CSS pour designer un composange en JS avec `yarn add styled-components`
+Dans ce tutoriel nous avons vu comment installer le routeur de react
+Comment faire passer un argument dans le routeur pour faire un questionnaire.
+Et que le routeur est un élément important pour l'identification
+
+Nous avons également créé un systeme de pagination pour un questionnaire
+
+Nous avons vu comment donner une valeur par default et ou exiger qu'une props sois requise avec props-type.
+CF revoir les props !!!!
+
+Le scope CSS pour designer un composant avec le CSS in JSS a l'aide du package `yarn add styled-components`
+https://styled-components.com/
+On pourras ainsi Passer une propriété CSS en variable
+Créer un composant StyleGlobal
+Comment ajouter une pseudoselecteur avec `&:`
+
+### Incorporez des données dans une application React avec les hooks
+
+#### Faire des calls API
+
+Pour faire des call API nous allons utiliser les hook :
+
+- useEffect nous permettra de déclencher le fetch;
+- useState permettra de stocker le retour de l'API dans le state
+
+## Ce que l'on fait au cours du MOOC
 
 Création des composant Home et Survey
 Installation du routeur avec `yarn add react-router-dom`
@@ -175,44 +201,73 @@ Card.defaultProps = {
 
 PS il y a d'autre solution recommander pour typer ses props comme **TypeScript** et **Props**
 
-## Scopez votre CSS avec styled components
+### Scopez votre CSS avec styled components
 
-Depuis quelques années on vois arrivé le CSS in JS pour gargé à l'idée que **le style est attacgé a un composant spécifique**. Il existe plusieur solution CSS in JS et nous allons nous intéréssé a styled components qui s'installe avec alc ommande
+Depuis quelques années on vois arrivé le CSS in JS pour que **le style soit attaché a un composant spécifique**. Il existe plusieur solution CSS in JS et nous allons nous intéréssé a styled components qui s'installe avec alc ommande
 `yarn add styled-components`
-Puis on définis des constante avec des valeurs CSS
+Cela nous permet de définire des constante avec une balise HTML et des valeurs CSS qui seront relié a des balise </JSX>
 Et on donne le nom de ces constant aux balise JSX
 Et si la balise JSX viens d'une bibliotheque on donne une valeur en préfixe et le nom de la balise en arguments.
 exemple
 
-````javascript
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+```javascript
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const StyledLink = styled(Link)`
-    padding: 15px;
-    color: #8186a0;
-    text-decoration: none;
-    font-size: 18px;
-    ${(props) =>
-      props.$isFullLink &&
-      `color: white; border-radium: 30px; background-color:5843E4;`}
-`
+  padding: 15px;
+  color: #8186a0;
+  text-decoration: none;
+  font-size: 18px;
+  ${(props) =>
+    props.$isFullLink &&
+    `color: white; border-radium: 30px; background-color:5843E4;`}
+`;
 
 function Header() {
-    return (
-        <nav>
-            <StyledLink to="/">Accueil</StyledLink>
-            <StyledLink to="/survey/1" $isFullLink>Questionnaire</StyledLink>
-            <StyledLink to="/freelances">Profils</StyledLink>
-        </nav>
-    )
+  return (
+    <nav>
+      <StyledLink to="/">Accueil</StyledLink>
+      <StyledLink to="/survey/1" $isFullLink>
+        Questionnaire
+      </StyledLink>
+      <StyledLink to="/freelances">Profils</StyledLink>
+    </nav>
+  );
 }
 
-export default Header
+export default Header;
 ```
 
+Création du dossier utils pour stocker :
+color.js : ( pour stocker les couleur dans des variables )
+et Atoms.js : ( Pour Stocker le composant de CSS in JS styledLink ) que nous retrouvons dans les composant Componentn >Header et Pages>Home
 
-# Note
+### Effectuez des Calls Api
+
+On installe une API en local https://github.com/OpenClassrooms-Student-Center/7150606-API-React-intermediaire
+Puis on se place dans le dans le dossier qu'on a cloner pour faire un yarn install afin d'ouvrir l'API en local avec un yarn start.
+
+On récupere les question de notre API dans la console a l'aide d'un hook useEffect qui utilise la méthode fetch et on précise un tableau vide.
+
+```javascript
+useEffect(() => {
+  fetch(`http://localhost:8000/survey`).then((response) =>
+    response
+      .json()
+      .then(({ surveyData }) => console.log(surveyData))
+      .catch((error) => console.log(error))
+  );
+}, []);
+```
+
+Puis pour afficher le questionnaire de la console vers notre pageWeb on utilise le hook state
+
+```javascript
+const [questions, setQuestions] = useState({});
+```
+
+## Note
 
 import react-router-dom. ( qu'est ce que le react router dom ? )
 
@@ -221,6 +276,24 @@ import react-router-dom. ( qu'est ce que le react router dom ? )
 - BrowserRouter
 - Routes
 - Route
+- Axios
+- fetch
+
+### Vocabulaire :
+
+fetch
+
+API :
+
+state local :
+
+hook :
+
+Re-render :
+
+useState : est un hook qui permet d'ajouter un state local dans un composant fonctions.
+
+useEffect : un hook qui permet d'effectuer des action apres le Render de nos composant.
 
 Dans ce tutoriel on créer une application react complete avec :
 CRA
@@ -232,7 +305,14 @@ Le Router est au coeur des systeme d'authetification
 Si le token est correct, pas de souci, vous récupérez vos données.
 En cas d'erreur de token, vous recevez une erreur qui a pour conséquence de vous rediriger automatiquement côté router de React sur la partie non authentifiée avec Redirect.
 
-# Question
+## todo
+
+Revoir les anciens cours
+
+- mettre en place le state local avec useState
+- Declenchez des effets avec UseEffect
+
+## Question :
 
 Qu'est ce que la methode parseInt
 Comment traduire
@@ -241,7 +321,6 @@ Comment traduire
 const previousQuestionNumber =
   questionNumberInt === 1 ? 1 : questionNumberInt - 1;
 ```
-````
 
 ### Comment fonctionne ce code pour la pagination
 
