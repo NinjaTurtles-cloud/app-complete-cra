@@ -23,14 +23,20 @@ On pourras ainsi Passer une propriété CSS en variable
 Créer un composant StyleGlobal
 Comment ajouter une pseudoselecteur avec `&:`
 
-### Incorporez des données dans une application React avec les hooks
+#### Effectuer des call API
 
-#### Faire des calls API
+Ensuite on a vu comment récuperer les donné d'une API
 
-Pour faire des call API nous allons utiliser les hook :
+Pour faire des call API nous avons utiliser les hook :
 
 - useEffect nous permettra de déclencher le fetch;
 - useState permettra de stocker le retour de l'API dans le state
+
+avec la syntaxe en then et la syntaxe plus récente en async
+
+Puis on a ajouter un loader qui sépare le momement du rendu de la page avec celui ou les data se charge grace a un loader chargé dans Atoms.js
+
+### Incorporez des données dans une application React avec les hooks
 
 ## Ce que l'on fait au cours du MOOC
 
@@ -264,7 +270,107 @@ useEffect(() => {
 Puis pour afficher le questionnaire de la console vers notre pageWeb on utilise le hook state
 
 ```javascript
-const [questions, setQuestions] = useState({});
+const [surveyData, setSurveyData] = useState({});
+const [isDataLoading, setDataLoading] = useState(false);
+```
+
+Et on affiche egalment un loader pour mentionner qu'il y a un petit tant de chargement entre le render du composant et celui du chargement des data
+
+Pour cela on ajoute un loader en CSS pure dans le composant util>Atom.js en ajoutant l'import de keyFrames du pack styled-component
+
+```javascript
+import colors from "./colors";
+import styled, { keyframes } from "styled-components";
+
+const rotate = keyframes`
+    from {
+        transform: rotate(0deg);
+    }
+ 
+    to {
+    transform: rotate(360deg);
+    }
+`;
+
+export const Loader = styled.div`
+  padding: 10px;
+  border: 6px solid ${colors.primary};
+  border-bottom-color: transparent;
+  border-radius: 22px;
+  animation: ${rotate} 1s infinite linear;
+  height: 0;
+  width: 0;
+`;
+```
+
+Et on utilise le state pour afficher notre loader
+
+```javascript
+const [isDataLoading, setDataLoading] = useState(false);
+```
+
+Et dans le useEffect on vien modifier notre booléen
+
+```javascript
+useEffect(() => {
+  setDataLoading(true);
+  fetch(`http://localhost:8000/survey`)
+    .then((response) => response.json())
+    .then(({ surveyData }) => {
+      setSurveyData(surveyData);
+      setDataLoading(false);
+    });
+}, []);
+```
+
+Et une syntaxe plus récente depuis ES7 propose d'utiliser await a la place de then.
+Pour cela on part sur cette base
+
+```javascript
+useEffect(() => {
+  async function fetchSurvey() {
+    try {
+    } catch (err) {
+    } finally {
+    }
+  }
+  fetchSurvey();
+}, []);
+```
+
+Et on l'a rempli avec le code de base.
+
+```javascript
+useEffect(() => {
+  async function fetchSurvey() {
+    setDataLoading(true);
+    try {
+      const response = await fetch(`http://localhost:8000/survey`);
+      const { surveyData } = await response.json();
+      setSurveyData(surveyData);
+    } catch (err) {
+      console.log(err);
+      setError(true);
+    } finally {
+      setDataLoading(false);
+    }
+  }
+  fetchSurvey();
+}, []);
+```
+
+Puis on **conditionne le rendu du composant** `loader`
+
+```javascript
+<SurveyContainer>
+  <QuestionTitle>Question {questionNumber}</QuestionTitle>
+  {isDataLoading ? (
+    <Loader />
+  ) : (
+    <QuestionContent>{surveyData[questionNumber]}</QuestionContent>
+  )}
+  ...
+</SurveyContainer>
 ```
 
 ## Note
@@ -313,6 +419,8 @@ Revoir les anciens cours
 - Declenchez des effets avec UseEffect
 
 ## Question :
+
+Qu'est ce que l'import de keyFrame from styled-component ( cf Atom.js )
 
 Qu'est ce que la methode parseInt
 Comment traduire
