@@ -36,7 +36,7 @@ On a vu comment créer un composant StyleGlobal dans la racine du projet pour d�
 
 Et si on veut en savoir plus y a des exemples dans la documentation officiel notamment dans le cas ou un composant a une className https://styled-components.com/docs/basics#pseudoelements-pseudoselectors-and-nesting
 
-#### Effectuer des call API
+### Effectuer des call API
 
 Ensuite on a vu comment récuperer les donné d'une API afin d'afficher les questions du questionnaire et les info des profiles freelances.
 
@@ -49,9 +49,9 @@ Et qu'il y a 2 syntaxe différentes celle en then et la syntaxe plus récente en
 
 Puis on a ajouter un loader qui sépare le momement du rendu de la page avec celui ou les data se charge grace a un loader chargé dans Atoms.js
 
-### Incorporez des données dans une application React avec les Hooks
+## Incorporez des données dans une application React avec les Hooks
 
-#### Incorporez des données avec useContext
+### Incorporez des données avec useContext
 
 Contexte **nous permet de récupérer simplement nos datas sans avoir à tout passer manuellement** en englobant le composant parent dans un _provider_ et accéder au données dans les parents enfants appelé les _consumers_
 
