@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import colors from "../../utils/style/color";
+import colors from "../../utils/style/Colors";
 
 const ErrorWrapper = styled.div`
   margin: 30px;

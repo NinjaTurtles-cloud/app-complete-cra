@@ -1,42 +1,61 @@
 # Créer une application complete avec React
 
-## Ce que nous allons voir
+Ce repo viens du cours open class room créer une application complete avec React.
+Dois voici un bref résumé des différents chapitre qu'il compose.
 
-### Créer une SPA Robuste
+## Créer une SPA Robuste
 
-Dans ce tutoriel on vois l'utilité de EsLint et Prettier.
-Qu'est ce que EsLint ?
-Qu'est ce Prettier ?
+### Architecturer le projet
 
-Dans ce tutoriel nous avons vu comment installer le routeur de react
-Comment faire passer un argument dans le routeur pour faire un questionnaire.
-Et que le routeur est un élément important pour l'identification
+On commence par paramétrer les extenssions EsLint et Prettier pour afficher les erreurs et warning dans le code et pour formatter le code.
 
-Nous avons également créé un systeme de pagination pour un questionnaire
+### Créer une SPA avec le routeur
 
-Nous avons vu comment donner une valeur par default et ou exiger qu'une props sois requise avec props-type.
+Ensuite nous avons créer une SPA en installant le routeur de react, `yarn add react-router-dom`,
+nous avons vu comment passer un argument dans le routeur et l'url pour faire un questionnaire avec un systeme de pagination avec `useParams()`
+puis nous appris que le routeur est un élément important pour une fonctionalité d'authentification.
+Et on a également créer une page d'erreur 404 avec une route qui les attrapes toutes.
+
+### Les props types
+
+Et nous avons vu comment donner une valeur par default et ou exiger qu'une props sois requise avec `yarn add prop-type` en créant des card avec des valeur par default pour la propriété title, label et picture.
 CF revoir les props !!!!
 
-Le scope CSS pour designer un composant avec le CSS in JSS a l'aide du package `yarn add styled-components`
+### Le CSS in JS
+
+On vas scoper le style pour designer un composant avec le CSS in JSS a l'aide du package `yarn add styled-components`
 https://styled-components.com/
-On pourras ainsi Passer une propriété CSS en variable
-Créer un composant StyleGlobal
-Comment ajouter une pseudoselecteur avec `&:`
+
+Nous avons vu qu'un des avantage que cela offre est de passé une propriété CSS directement dans un composant avec l'exemple de `$isFullLink` permettant d'ajouter un background rouge a un élément du menu.
+
+Un autre avantage est de définirs des variable contenant du style avec pour exemple les couleur primary, secondary ...
+
+Puis on a vu comment ajouter une pseudoselecteur avec `&:` pour faire une ombre au survol de la souris sur une card.
+
+On a vu comment créer un composant StyleGlobal dans la racine du projet pour définir une police de caractere.
+
+Et si on veut en savoir plus y a des exemples dans la documentation officiel notamment dans le cas ou un composant a une className https://styled-components.com/docs/basics#pseudoelements-pseudoselectors-and-nesting
 
 #### Effectuer des call API
 
-Ensuite on a vu comment récuperer les donné d'une API
+Ensuite on a vu comment récuperer les donné d'une API afin d'afficher les questions du questionnaire et les info des profiles freelances.
 
 Pour faire des call API nous avons utiliser les hook :
 
 - useEffect nous permettra de déclencher le fetch;
 - useState permettra de stocker le retour de l'API dans le state
 
-avec la syntaxe en then et la syntaxe plus récente en async
+Et qu'il y a 2 syntaxe différentes celle en then et la syntaxe plus récente en async
 
 Puis on a ajouter un loader qui sépare le momement du rendu de la page avec celui ou les data se charge grace a un loader chargé dans Atoms.js
 
-### Incorporez des données dans une application React avec les hooks
+### Incorporez des données dans une application React avec les Hooks
+
+#### Incorporez des données avec useContext
+
+Contexte **nous permet de récupérer simplement nos datas sans avoir à tout passer manuellement** en englobant le composant parent dans un _provider_ et accéder au données dans les parents enfants appelé les _consumers_
+
+On a créer un boutton toggle Jour Nuit grace aux ThemeProvider, puis on à récuperer les réponse que l'utilisateur à choisis pour les envoyé a la page Results avec le SurveyProvider.
 
 ## Ce que l'on fait au cours du MOOC
 
@@ -373,6 +392,229 @@ Puis on **conditionne le rendu du composant** `loader`
 </SurveyContainer>
 ```
 
+### Transmettre des donnée avec le hook usecontext
+
+On créer le composant Footer pour y insérer notre Button Night Mode
+
+On insère le composant Footer et le Theme provider dans notre index.js source
+
+On créer le fichier utils/Context pour initilaliser le contexte puis on le paramètre
+
+Et on import le ThemeProvider dans index.js source pour englober notre code
+
+```javascript
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState("light");
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+```
+
+Ainsi toute les valeur englober dans les balises <ThemeProvider> auront acces a theme et setTheme.
+
+On créer un composant utils/style/GlobaStyle pour y inserer notre styled.component globaleStle en fonction afin d'y utiliser un Hook et on y importe useContext et ThemeContext  
+Et on récupere le theme et on y insere une prop isDarkMode.
+
+Puis on retourne sur notre button dans le composant Footer afin d'y importer ThemeContext et useContext pour récuperer nos action Theme et toggleTheme
+
+---
+
+Ensuite on créer le SurveyContainer pour récuperer les réponses du Questionnaire.
+
+Pour cela on commence par créer le SurveyProvider dans utils/Context sans oublié de le déclarer dans le index.js source
+
+```javascript
+export const SurveyContext = createContext();
+
+export const SurveyProvider = ({ children }) => {
+  const [answers, setAnswers] = useState({});
+  const saveAnswers = (newAnswers) => {
+    setAnswers({ ...answers, ...newAnswers });
+  };
+
+  return (
+    <SurveyContext.Provider value={{ answers, saveAnswers }}>
+      {children}
+    </SurveyContext.Provider>
+  );
+};
+```
+
+Ensuite on importe useContext from react et
+{ surveycontext } from ....utils/Context Survey/index.js
+
+On créer les style.components ReplyBox et ReplyWrapper
+
+Puis dans la fonction Survey on déclare notre constante { answers, saveAnswers } qui utilise SurveyContext
+
+Et on créer la fonction saveReply(answer)
+
+Puis on return les composant ReplyWrapper et ReplyBox qui selectionne la réponse au clique
+
+```javascript
+import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import colors from "../../utils/style/Colors";
+import { Loader } from "../../utils/style/Atoms";
+import { SurveyContext } from "../../utils/Context";
+
+const SurveyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const QuestionTitle = styled.h2`
+  text-decoration: underline;
+  text-decoration-color: ${colors.primary};
+`;
+
+const QuestionContent = styled.span`
+  margin: 30px;
+`;
+
+const LinkWrapper = styled.div`
+  padding-top: 30px;
+  & a {
+    color: black;
+  }
+  & a:first-of-type {
+    margin-right: 20px;
+  }
+`;
+
+const ReplyBox = styled.button`
+  border: none;
+  height: 100px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${colors.backgroundLight};
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: ${(props) =>
+    props.isSelected ? `0px 0px 0px 2px ${colors.primary} inset` : "none"};
+  &:first-child {
+    margin-right: 15px;
+  }
+  &:last-of-type {
+    margin-left: 15px;
+  }
+`;
+
+const ReplyWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+function Survey() {
+  const { questionNumber } = useParams();
+  const questionNumberInt = parseInt(questionNumber);
+  const prevQuestionNumber =
+    questionNumberInt === 1 ? 1 : questionNumberInt - 1;
+  const nextQuestionNumber = questionNumberInt + 1;
+  const [surveyData, setSurveyData] = useState({});
+  const [isDataLoading, setDataLoading] = useState(false);
+  const { answers, saveAnswers } = useContext(SurveyContext);
+  const [error, setError] = useState(false);
+
+  function saveReply(answer) {
+    saveAnswers({ [questionNumber]: answer });
+  }
+
+  useEffect(() => {
+    async function fetchSurvey() {
+      setDataLoading(true);
+      try {
+        const response = await fetch(`http://localhost:8000/survey`);
+        const { surveyData } = await response.json();
+        setSurveyData(surveyData);
+      } catch (err) {
+        console.log(err);
+        setError(true);
+      } finally {
+        setDataLoading(false);
+      }
+    }
+    fetchSurvey();
+  }, []);
+
+  if (error) {
+    return <span>Oups il y a eu un problème</span>;
+  }
+
+  return (
+    <SurveyContainer>
+      <QuestionTitle>Question {questionNumber}</QuestionTitle>
+      {isDataLoading ? (
+        <Loader />
+      ) : (
+        <QuestionContent>{surveyData[questionNumber]}</QuestionContent>
+      )}
+      <ReplyWrapper>
+        <ReplyBox
+          onClick={() => saveReply(true)}
+          isSelected={answers[questionNumber] === true}
+        >
+          Oui
+        </ReplyBox>
+        <ReplyBox
+          onClick={() => saveReply(false)}
+          isSelected={answers[questionNumber] === false}
+        >
+          Non
+        </ReplyBox>
+      </ReplyWrapper>
+
+      <LinkWrapper>
+        <Link to={`/survey/${prevQuestionNumber}`}>Précédent</Link>
+        {surveyData[questionNumberInt + 1] ? (
+          <Link to={`/survey/${nextQuestionNumber}`}>Suivant</Link>
+        ) : (
+          <Link to="/results">Résultats</Link>
+        )}
+      </LinkWrapper>
+    </SurveyContainer>
+  );
+}
+
+export default Survey;
+```
+
+Et pour finir on récupere le resutat des réponses donné dans la console dans la page/Result
+
+en important useContext et SurveySontext
+Et en déclarant la const { answers } qui utilise le usecontext dans la fonction Result et en logant la const answer dans la console
+
+```javascript
+//Result.js
+import { useContext } from "react";
+import { SurveyContext } from "../../utils/Context";
+
+function Results() {
+  const { answers } = useContext(SurveyContext);
+  console.log(answers);
+
+  return (
+    <div>
+      <h1>Résultats</h1>
+    </div>
+  );
+}
+
+export default Results;
+```
+
 ## Note
 
 import react-router-dom. ( qu'est ce que le react router dom ? )
@@ -410,6 +652,14 @@ Le Hook useParams pour ajouter des parametre dans le menu.
 Le Router est au coeur des systeme d'authetification
 Si le token est correct, pas de souci, vous récupérez vos données.
 En cas d'erreur de token, vous recevez une erreur qui a pour conséquence de vous rediriger automatiquement côté router de React sur la partie non authentifiée avec Redirect.
+
+State management : L'art d'optimiser la gestion du state soit de passer des simplements des datas dans nos composant
+
+UseContext : Hook pour gerer le state
+
+Provider :
+
+Consumers :
 
 ## todo
 
@@ -456,3 +706,5 @@ function Survey() {
 
 export default Survey;
 ```
+
+### Incorporez des donnée

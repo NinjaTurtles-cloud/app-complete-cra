@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import colors from "../../utils/style/color";
+import colors from "../../utils/style/Colors";
 import DarkLogo from "../../assets/dark-logo.png";
 import { StyledLink } from "../../utils/style/Atoms";
 

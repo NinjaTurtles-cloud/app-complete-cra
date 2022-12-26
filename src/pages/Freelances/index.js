@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import styled from "styled-components";
-import colors from "../../utils/style/color";
+import colors from "../../utils/style/Colors";
 import { Loader } from "../../utils/style/Atoms";
 
 const CardsContainer = styled.div`
