@@ -59,7 +59,9 @@ On a créer un boutton toggle Jour Nuit grace aux ThemeProvider, puis on à réc
 
 ### Allez plus loin avec les hook
 
-On peut créer simplements des hook personalisé "custom hook" en créant un fonction qui commence par use contenant qui extrait de la logique réutilisable.
+On peut créer des hook personalisé "custom hook" en créant un fonction qui commence par use contenant qui extrait de la logique réutilisable.
+
+On a donc créer le dossier utils/hook contenant le hook useFetch servant a ne pas répéter le code qui fetch la data dans le questionnaire Survey
 
 ## Ce que l'on fait au cours du MOOC
 
@@ -618,6 +620,38 @@ function Results() {
 
 export default Results;
 ```
+
+### créer un hook personalisé
+
+On créer le hook useFetch dans utils/Hook ce qui permet de mettre en parametre les différents parametre et envoyer les parametre avec seuelement 2 ligne de code.
+
+Ensuite récupere le Resultat du questionnaire dans result.
+
+l'url prend la chaine de caractere queryParams afin de définir le resultat a affiché. ex a1=0&a2=1 ( pour la question a1 l'utlisateur a repond non et pour la question 2 l'utilisateur a repondu oui ) ...
+
+Pour générerer le resultat on utilise la fonction **formatQueryParams(answers)** qui récupere l'objet answers et itère les réponse avec la méthode reduce et concatène une string
+
+```javascript
+function formatQueryParams(answers) {
+  const answerNumbers = Object.keys(answers);
+
+  return answerNumbers.reduce((previousParams, answerNumber, index) => {
+    const isFirstAnswer = index === 0;
+    const separator = isFirstAnswer ? "" : "&";
+    return `${previousParams}${separator}a${answerNumber}=${answers[answerNumber]}`;
+  }, "");
+}
+```
+
+Puis on récupere la data si elle est chargé sans erreur et on utilise useFetch où on passe l'url + queryParams
+
+```javascript
+const { data, isLoading, error } = useFetch(
+  `http://localhost:8000/results?${queryParams}`
+);
+```
+
+Dans la const queryParams
 
 ## Note
 

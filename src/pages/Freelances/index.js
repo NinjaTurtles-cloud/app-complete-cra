@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import styled from "styled-components";
 import colors from "../../utils/style/Colors";
 import { Loader } from "../../utils/style/Atoms";
+import { useFetch, useTheme } from "../../utils/Hook";
 
 const CardsContainer = styled.div`
   display: grid;
@@ -33,10 +34,17 @@ const LoaderWrapper = styled.div`
 `;
 
 function Freelances() {
-  const [isDataLoading, setDataLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [freelancersList, setFreelancesList] = useState([]);
+  const { theme } = useTheme();
+  //const [isDataLoading, setDataLoading] = useState(false);
+  //const [error, setError] = useState(false);
+  //const [freelancersList, setFreelancesList] = useState([]);
 
+  const { data, isLoading, error } = useFetch(
+    `http://localhost:8000/freelances`
+  );
+  const freelancersList = data?.freelancersList;
+
+  /*
   useEffect(() => {
     async function fetchFreelances() {
       setDataLoading(true);
@@ -57,16 +65,21 @@ function Freelances() {
   if (error) {
     return <span>Oups il y a eu un problème</span>;
   }
+  */
+
+  if (error) {
+    return <span>Oups il y a eu un probleme</span>;
+  }
 
   return (
     <div>
-      <PageTitle>Trouvez votre prestataire</PageTitle>
-      <PageSubtitle>
+      <PageTitle theme={theme}>Trouvez votre prestataire</PageTitle>
+      <PageSubtitle theme={theme}>
         Chez Shiny nous réunissons les meilleurs profils pour vous.
       </PageSubtitle>
-      {isDataLoading ? (
-        <LoaderWrapper>
-          <Loader />
+      {isLoading ? (
+        <LoaderWrapper theme={theme}>
+          <Loader theme={theme} />
         </LoaderWrapper>
       ) : (
         <CardsContainer>
