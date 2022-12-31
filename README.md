@@ -100,7 +100,7 @@ Il existe plusieur type de test
 
 - Les tests **end-to-end**, quant à eux, permettent de tester l'intégralité d'une fonctionnalité de bout en bout. Ils sont beaucoup plus sécurisants, mais prennent donc beaucoup de temps à écrire.
 
-- Viennent enfin les **tests d'intégration** qui sont souvent considérés comme le juste milieu entre sécurité fournie et temps requis pour les rédiger. Ils permettent de tester une fonctionnalité, en simulant des interactions utilisateur pour s'assurer que tout fonctionne bien comme prévu.
+- Viennent enfin les **tests d'intégration** qui sonft souvent considérés comme le juste milieu entre sécurité fournie et temps requis pour les rédiger. Ils permettent de tester une fonctionnalité, en simulant des interactions utilisateur pour s'assurer que tout fonctionne bien comme prévu.
 
 **Jest** et **React Testing Library** sont les 2 Librairie de test existante sur react.
 
