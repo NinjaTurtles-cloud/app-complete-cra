@@ -93,8 +93,7 @@ function Results() {
               key={`result-title-${index}-${result.title}`}
               theme={theme}
             >
-              {result.title}
-              {index === resultsData.length - 1 ? "" : ","}
+              {formatJobList(result.title, resultsData.length, index)}
             </JobTitle>
           ))}
       </ResultsTitle>
@@ -115,6 +114,13 @@ function Results() {
       </DescriptionWrapper>
     </ResultsContainer>
   );
+}
+
+export function formatJobList(title, listLength, index) {
+  if (index === listLength - 1) {
+    return title;
+  }
+  return `${title},`;
 }
 
 export default Results;

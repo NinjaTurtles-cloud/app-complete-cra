@@ -59,9 +59,67 @@ On a créer un boutton toggle Jour Nuit grace aux ThemeProvider, puis on à réc
 
 ### Allez plus loin avec les hook
 
-On peut créer des hook personalisé "custom hook" en créant un fonction qui commence par use contenant qui extrait de la logique réutilisable.
+On a créé des custom hook dans le dossier utils/hook.  
+useFetch pour éviter de répéter le code qui fetch la data dans le questionnaire Survey.
+Et on a créer un hook useTheme qui récupere le Context ( jour/nuit )
 
-On a donc créer le dossier utils/hook contenant le hook useFetch servant a ne pas répéter le code qui fetch la data dans le questionnaire Survey
+Nous avons également affiché le resultat du questionnaire et nous avons vu la fonctionFormatsQuery pour afficher un resultat différent selon les réponse obtenue.
+Dans les fait il est conseillé d'utilisé react query(https://tanstack.com/query/v4/?from=reactQueryV3&original=https://react-query-v3.tanstack.com/) qui permet de faire des requete et les mettre en cache dans les applications.
+
+Rapellons quelque regle des Hook react :
+
+- Les hooks sont uniquement accessibles dans un composant fonction React. Donc ce n'est pas possible d’en utiliser dans un composant classe ou bien dans une simple fonction JavaScript.
+- Appelez les hooks au niveau racine de vos composants.
+- Attention au nommage de vos hooks personnalisés : même s’il ne s’agit pas vraiment d’une règle obligatoire, mais d’une convention, vos hooks personnalisés doivent commencer par use pour que l’on sache en un coup d’œil qu’il s’agit d’un hook.
+
+Puis on a utilise useFetch pour la page Freelances.
+
+C'est quoi useTheme ?
+
+## Testez une application React avec Jest et React Testing Library
+
+### Découvert des test React
+
+Les tests permettent d'être sûr de soi lorsqu'on veut modifier une codebase, surtout lorsqu'ils sont intégrés dans des pratiques de déploiement continu.
+
+Les principaux types de tests sont les tests unitaires, les tests d'intégration et les tests end-to-end.
+
+Les tests d'intégration sont un bon compromis entre le temps passé à rédiger les tests et la sécurité garantie.
+
+Jest et React Testing Library mettent à la disposition des développeurs un ensemble d'outils et fonctions permettant de tester une application.
+
+--
+
+Les testes serve a nous rassurer pour verifier que le code fonctionne toujours quand on travaille en équipe et qu'on modifie le code.
+
+sur GitHub. On apelle **l'intégration continue** quand le commit sur une branche déclenche une série de tests automatisés.
+
+Il existe plusieur type de test
+
+- Les tests **unitaires** vont venir tester une petite partie de votre code de manière totalement indépendante : une fonction, un bout de script... Ils sont les plus rapides à écrire, mais n'assurent pas forcément vos arrières.
+
+- Les tests **end-to-end**, quant à eux, permettent de tester l'intégralité d'une fonctionnalité de bout en bout. Ils sont beaucoup plus sécurisants, mais prennent donc beaucoup de temps à écrire.
+
+- Viennent enfin les **tests d'intégration** qui sont souvent considérés comme le juste milieu entre sécurité fournie et temps requis pour les rédiger. Ils permettent de tester une fonctionnalité, en simulant des interactions utilisateur pour s'assurer que tout fonctionne bien comme prévu.
+
+**Jest** et **React Testing Library** sont les 2 Librairie de test existante sur react.
+
+Pour rediger un test il faut importer l'element a testé et définir un matcher ( toEqual ... ) et une fonction ( expect )
+
+Le **code coverage** c'est le pourcentage de notre code a qui est couvert par les tests et répéré les parties non testées. avec la commande `yarn test -- --coverage`
+
+Les matcher :
+toEqual ...
+toBe
+toContain
+CF la documentation de Jest
+
+Les fonction pour la redaction de test
+expect() : compare un element avec le matcher
+
+describe() : permet d'englober plusieur test
+
+L'alisas it() remplace le mot test.
 
 ## Ce que l'on fait au cours du MOOC
 
@@ -699,6 +757,19 @@ Provider :
 
 Consumers :
 
+#### Test Vocabulaire
+
+test integration
+test end to end
+test unité
+
+mode watch ( surveille les fichier )
+
+expect et toEqual ( sont des matcher )
+
+Liste des matcher :
+toBe, toContain
+
 ## todo
 
 Revoir les anciens cours
@@ -712,11 +783,16 @@ Revoir les anciens cours
 
 a quoi sert isLoading ?
 
-Qu'est ce que les hook
+Qu'est ce que les hook, quand son il utilisé ?
 
 - useEffect,
 - useState
 - useContext ?
+
+C'est quoi les hooks customisé, quand sont il utilisé ?
+
+- useFetch
+- useTheme
 
 Qu'est ce que l'import de keyFrame from styled-component ( cf Atom.js )
 
@@ -755,4 +831,6 @@ function Survey() {
 export default Survey;
 ```
 
-### Incorporez des donnée
+### To DO
+
+https://fr.reactjs.org/docs/hooks-reference.html : voir les differents hook React

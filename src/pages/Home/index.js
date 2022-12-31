@@ -37,10 +37,15 @@ const Illustration = styled.img`
   flex: 1;
 `;
 
+export function sum(a, b) {
+  return a + b;
+}
+
 function Home() {
   return (
     <HomeWrapper>
-      <HomerContainer>
+      <HomerContainer theme={theme}>
+        {sum(40, 2)}
         <LeftCol>
           <StyledTitle>
             Repérez vos besoins, on s’occupe du reste, avec les meilleurs
