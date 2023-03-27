@@ -1,5 +1,5 @@
 import Footer from "./";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "../../utils/context";
 
 describe("Footer", () => {
@@ -9,5 +9,6 @@ describe("Footer", () => {
         <Footer />
       </ThemeProvider>
     );
+    const nightModeButton = screen.getByRole("button");
   });
 });

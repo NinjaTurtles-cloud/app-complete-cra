@@ -2,6 +2,7 @@ import styled from "styled-components";
 import colors from "../../utils/style/Colors";
 import { StyledLink } from "../../utils/style/Atoms";
 import HomeIllustration from "../../assets/home-illustration.svg";
+import { useTheme } from "../../utils/Hook";
 
 const HomeWrapper = styled.div`
   display: flex;
@@ -42,12 +43,13 @@ export function sum(a, b) {
 }
 
 function Home() {
+  const { theme } = useTheme();
+
   return (
     <HomeWrapper>
       <HomerContainer theme={theme}>
-        {sum(40, 2)}
         <LeftCol>
-          <StyledTitle>
+          <StyledTitle theme={theme}>
             Repérez vos besoins, on s’occupe du reste, avec les meilleurs
             talents
           </StyledTitle>

@@ -1,7 +1,9 @@
 # Créer une application complete avec React
 
 Ce repo viens du cours open class room créer une application complete avec React.
-Dois voici un bref résumé des différents chapitre qu'il compose.
+Dons voici un bref résumé des différents chapitre qu'il compose.
+
+`npm run start` pour démarrer le projet.
 
 ## Créer une SPA Robuste
 
@@ -82,7 +84,11 @@ C'est quoi useTheme ?
 
 Les tests permettent d'être sûr de soi lorsqu'on veut modifier une codebase, surtout lorsqu'ils sont intégrés dans des pratiques de déploiement continu.
 
-Les principaux types de tests sont les tests unitaires, les tests d'intégration et les tests end-to-end.
+Les principaux types de tests sont :
+
+- les tests unitaires
+- les tests d'intégration
+- les tests end-to-end.
 
 Les tests d'intégration sont un bon compromis entre le temps passé à rédiger les tests et la sécurité garantie.
 
@@ -90,7 +96,7 @@ Jest et React Testing Library mettent à la disposition des développeurs un ens
 
 --
 
-Les testes serve a nous rassurer pour verifier que le code fonctionne toujours quand on travaille en équipe et qu'on modifie le code.
+Les teste serve à nous rassurer pour verifier que le code fonctionne toujours quand on travaille en équipe et qu'on modifie le code.
 
 sur GitHub. On apelle **l'intégration continue** quand le commit sur une branche déclenche une série de tests automatisés.
 
@@ -109,10 +115,11 @@ Pour rediger un test il faut importer l'element a testé et définir un matcher 
 Le **code coverage** c'est le pourcentage de notre code a qui est couvert par les tests et répéré les parties non testées. avec la commande `yarn test -- --coverage`
 
 Les matcher :
-toEqual ...
-toBe
-toContain
-CF la documentation de Jest
+
+- toEqual ...
+- toBe
+- toContain
+  CF la documentation de Jest
 
 Les fonction pour la redaction de test
 expect() : compare un element avec le matcher
@@ -120,6 +127,63 @@ expect() : compare un element avec le matcher
 describe() : permet d'englober plusieur test
 
 L'alisas it() remplace le mot test.
+
+### React Testing Library
+
+Pour tester nos composants, il faudra donc **faire un render, vérifier le DOM généré, et le comparer avec ce qui était attendu.**
+[lien pour apprendre les test React](https://legacy.reactjs.org/docs/testing-recipes.html)
+
+#### React Testing Library
+
+Cette librairie nous permet de **respecter les bonnes pratique** et \*\* avoir des messages d'erreur lisible. C'est une solution complémentaire a Jest
+
+Cette librairie recréer le DOM est simule des interaction et vérifie ce qui est rendu.
+
+React Testing Library nous permet de faire des test d'intégration et des test unitaires.
+
+#### Créer un test simple d'un composant.
+
+On vas tester le composant footer dans /components/Footer/index.test.js
+
+```javascript
+import Footer from "./";
+import { render } from "@testing-library/react";
+import { ThemeProvider } from "../../utils/context";
+
+describe("Footer", () => {
+  test("Should render without crashing", async () => {
+    render(
+      <ThemeProvider>
+        <Footer />
+      </ThemeProvider>
+    );
+  });
+});
+```
+
+#### Testez les evenement de vos composant
+
+On vas test le mode light/dark en récupérant le contenu du boutton et comparé le texte affiché.
+[cf documentation de testing-library pour avoir la liste des selecteur](https://testing-library.com/docs/react-testing-library/cheatsheet/)
+
+On peut selectionner un element selon son role, son label, son placeholder.
+
+On importe le module screen (le body qui conten notre composnat)
+
+Exemple de test :
+1- Vérifier la présence de "☀️".
+2- Cliquer sur le bouton.
+3- Vérifier s'il y a bien "🌙".
+
+### Question TEST
+
+#### Quels sont les différence entre React test Library et Jest
+
+#### Qu'est qu'un test unitaire
+
+#### Qu'est qu'un test end to end
+
+#### Qu'est ce qu'un test d'intégration ?
 
 ## Ce que l'on fait au cours du MOOC
 
